@@ -1,70 +1,69 @@
-# import extra
-# a = int(input())
-# b = int(input())
-# print(extra.bol(a, b))
-#
-# import random
-# a = int(input())
-# b = int(input())
-# print(random.random())
-# print(random.randint(a, b))
+# game
+from tkinter import *
+from random import *
+def f1():
+    global cnt
+    c = 1
+    cnt = cnt - c
+    if cnt <= 0:
+        pal.configure(text="Вы проиграли!!!!", fg="red")
+    else:
+        pal.configure(text= cnt*"  I")
+def f2():
+    global cnt
+    c = 2
+    cnt = cnt - c
+    if cnt <= 0:
+        pal.configure(text="Вы проиграли!!!!", fg="red")
+    else:
+        pal.configure(text= cnt*"  I")
+def f3():
+    global cnt
+    c = 3
+    cnt = cnt - c
+    if cnt <= 0:
+        pal.configure(text="Вы проиграли!!!!", fg="red")
+    else:
+        pal.configure(text=cnt * "  I")
+def pc():
+    global cnt
+    c = randint(1, 3)
+    if cnt == 4:
+        c = 3
+    elif cnt == 3:
+        c = 2
+    elif cnt == 2:
+        c = 1
+    cnt = cnt - c
+    if cnt <= 0:
+        pal.configure(text='Вы выиграли!!!', fg="green")
+    else:
+        pal.configure(text=cnt * "  I")
 
-# import math
-#
-# def gh(a):
-#     print(math.log(a))
-# a = int(input())
-# gh(a)
-# print(math.pi)
-# # a = int(input())
-# # print(math.cos(a))
-# print(math.ceil(3.1)) #округление вверх
-# print(math.floor(3.9)) #округление вниз
-# print(math.factorial(a))
+cnt = 20
+window = Tk()
+window.geometry('700x500')
+window.resizable(0, 0)
+window.title("Palo4ki")
 
-#JSON
-# import json
-# # 'r' = read 'w' = write 'a' = append 'x' = new file
-# f = open("data1.json", 'r')
-# print(f.read())
-# # f = open("data2.json", 'x')
-# f = open("C:\\Users\\Admin\\Desktop\\Decode\\lesson 9.txt", 'r')
-# d = open("C:\\Users\\Admin\\Desktop\\Decode\\lesson 9.txt", 'a')
-# d.write("Good bye")
-# a = open("data2.json", 'a')
-# a.write("Hello")
-# print(a)
-# print(f.read())
-#
-# import json
-# # x = {
-# #   "name": "John",
-# #   "age": 30,
-# #   "city": "New York"
-# # }
-# # y = json.dumps(x)
-# # print(y)
-# # y1 = json.loads(y)
-# # print(type(y1))
-#
-# print(json.dumps({"name": "John", "age": 30}))
-# print(json.dumps(["apple", "bananas"]))
-# print(json.dumps(("apple", "bananas")))
-# print(json.dumps("hello"))
-# print(json.dumps(42))
-# print(json.dumps(31.76))
-# print(json.dumps(True))
-# print(json.dumps(False))
-# print(json.dumps(None))
+text1 = Label(window, text='Сколько палочек вам нужно?')
+text1.config(font=("Arial", 20, "bold"))
+text1.grid(row=0, column=10)
 
+btn1 = Button(window, text="1", command=f1)
+btn1.grid(row=1, column=2, columnspan = 2)
 
-# import json
-# f = open("data1.json", 'r')
-# x = f.read()
-# data = json.loads(x) #str -> dict
-# print(data['name'])
+btn2 = Button(window, text="2",command=f2)
+btn2.grid(row=1, column= 10, columnspan=2)
 
-# a = "       qwwwwertyuio    "
-# print(a.strip(" qw"))
+btn3 = Button(window, text="3", command=f3)
+btn3.grid(row = 1, column=20, columnspan=2)
 
+pal = Label(window, text=cnt*"  I", fg = "green")
+pal.config(font = ("Arial", 30, "bold"))
+pal.grid(row = 2, column=10)
 
+btn_pc = Button(window, text='Ход компьютера', width=30, command=pc)
+btn_pc.grid(row = 3, column= 10)
+
+window.mainloop()
