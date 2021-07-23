@@ -1,69 +1,63 @@
-# game
-from tkinter import *
-from random import *
-def f1():
-    global cnt
-    c = 1
-    cnt = cnt - c
-    if cnt <= 0:
-        pal.configure(text="Вы проиграли!!!!", fg="red")
-    else:
-        pal.configure(text= cnt*"  I")
-def f2():
-    global cnt
-    c = 2
-    cnt = cnt - c
-    if cnt <= 0:
-        pal.configure(text="Вы проиграли!!!!", fg="red")
-    else:
-        pal.configure(text= cnt*"  I")
-def f3():
-    global cnt
-    c = 3
-    cnt = cnt - c
-    if cnt <= 0:
-        pal.configure(text="Вы проиграли!!!!", fg="red")
-    else:
-        pal.configure(text=cnt * "  I")
-def pc():
-    global cnt
-    c = randint(1, 3)
-    if cnt == 4:
-        c = 3
-    elif cnt == 3:
-        c = 2
-    elif cnt == 2:
-        c = 1
-    cnt = cnt - c
-    if cnt <= 0:
-        pal.configure(text='Вы выиграли!!!', fg="green")
-    else:
-        pal.configure(text=cnt * "  I")
+from telebot import*
+from gtts import *
+token = "1903269438:AAGqEZs-uF48m0ZCHA9E2FLXV7zhx1idBCU"
 
-cnt = 20
-window = Tk()
-window.geometry('700x500')
-window.resizable(0, 0)
-window.title("Palo4ki")
+bot = TeleBot(token)
 
-text1 = Label(window, text='Сколько палочек вам нужно?')
-text1.config(font=("Arial", 20, "bold"))
-text1.grid(row=0, column=10)
+@bot.message_handler(commands=["start"])
+def greeting(message):
+    pass
+    # bot.send_message(message.chat.id, "Hello")
+    # print(message)
 
-btn1 = Button(window, text="1", command=f1)
-btn1.grid(row=1, column=2, columnspan = 2)
+    # keyboard = types.ReplyKeyboardMarkup(False)
+    #
+    # btn1 = types.KeyboardButton(text="Hello")
+    # keyboard.add(btn1)
+    # btn2 = types.KeyboardButton(text="Bye")
+    # keyboard.add(btn2)
+    # bot.send_message(message.chat.id, "hello", reply_markup=keyboard)
 
-btn2 = Button(window, text="2",command=f2)
-btn2.grid(row=1, column= 10, columnspan=2)
+@bot.message_handler(content_types=["text"])
+def handling(message):
+    if message.text == "month":
+        keyboard = types.InlineKeyboardMarkup()
+        btn1 = types.InlineKeyboardButton(text="January", callback_data="Jan")
+        btn2 = types.InlineKeyboardButton(text="February", callback_data="Feb")
+        btn3 = types.InlineKeyboardButton(text="March", callback_data="Mar")
+        btn4 = types.InlineKeyboardButton(text="April", callback_data="Apr")
+        btn5 = types.InlineKeyboardButton(text="May", callback_data="May")
+        keyboard.add(btn1)
+        keyboard.add(btn2)
+        keyboard.add(btn3)
+        keyboard.add(btn4)
+        keyboard.add(btn5)
+        bot.send_message(message.chat.id, "Choose month", reply_markup=keyboard)
 
-btn3 = Button(window, text="3", command=f3)
-btn3.grid(row = 1, column=20, columnspan=2)
+    #bot.send_message(message.chat.id, message.text)
+    # if message.text == "Ziya":
+    #     bot.send_message(message.chat.id, "Hello Ziya")
+    # else:
+    #     bot.send_message(message.chat.id, "Hello, " + message.text)
 
-pal = Label(window, text=cnt*"  I", fg = "green")
-pal.config(font = ("Arial", 30, "bold"))
-pal.grid(row = 2, column=10)
+    # text = message.text
+    # speech = gTTS(text=text, lang='en', slow=False)
+    # speech.save("audio.mp3")
+    # f = open("audio.mp3", 'rb') #'rb' чтение файла в виде gTTs
+    # bot.send_audio(message.chat.id, f)
 
-btn_pc = Button(window, text='Ход компьютера', width=30, command=pc)
-btn_pc.grid(row = 3, column= 10)
+@bot.callback_query_handler(func=lambda call: True)
 
-window.mainloop()
+def month_handler(call):
+    if call.data == "Jan":
+        bot.send_message(call.message.chat.id, "In January 31 days")
+    elif call.data == "Feb":
+        bot.send_message(call.message.chat.id, "In February 28-29 days")
+    elif call.data == "Mar":
+        bot.send_message(call.message.chat.id, "In March 31 days")
+    elif call.data == "Apr":
+        bot.send_message(call.message.chat.id, "In April 30 days")
+    elif call.data == "May":
+        bot.send_message(call.message.chat.id, "In May 31 days")
+bot.polling()
+
