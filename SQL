@@ -1,0 +1,74 @@
+#########1##########
+create Table student(
+	ID int,
+  	firstname Varchar(40),
+  	lastname varchar(40),
+  	year_of_study int
+);
+
+INSERT INTO student VALUES(1, "Derbes", "Utebaliyev", 4);
+
+SELECT ID, firstname, lastname FROM student;
+SELECT * FROM student;
+SELECT * FROm student WHERE firstname == "Derbes";
+SELECT * FROm student WHERE year_of_study > 2;
+
+
+UPDATE student SET firstname = "Bagjan" WHERE firstname == "Derbes";
+
+
+DELETE FROM student Where firstname == "Azamat";
+
+ALTER TABLE student ADD COLUMN faculty VARCHAR(40);
+ALTER TABLE student DROP COLUMN faculty;
+
+
+SELECT * FROM student ORDER BY year_of_study DESC;
+SELECT * FROM student ORDER BY year_of_study ASC;
+
+
+SELECT AVG(year_of_study) FROM student WHERE year_of_study > 1;
+SELECT COUNT(year_of_study) FROM student WHERE year_of_study > 1;
+SELECT SUM(year_of_study) FROM student WHERE year_of_study > 2;
+SELECT MAX(year_of_study) FROM student WHERE year_of_study > 2;
+SELECT MIN(year_of_study) FROM student WHERE year_of_study > 2;
+
+SELECT COUNT(faculty), faculty FROM student GROUP By faculty;
+
+SELECT * FROM student WHERE year_of_study >= 2 AND year_of_study <=3;
+SELECT * FROM student WHERE year_of_study BETWEEN 2 and 3;
+
+DROP TABLE student;
+
+
+#########2#############
+CREATE TABLE factory(
+	ID INT PRIMARY Key,
+  	name VARCHAR(40),
+  	country VARCHAR(40)
+)
+
+create Table car(
+	ID INT PRIMARY KEY,
+  	model Varchar(40),
+  	brand varchar(40),
+  	year_ int,
+  	factory_id INT,
+  	FOREIGN KEY(factory_id) REFERENCES factory(ID)
+);
+
+INSERT INTO factory VALUES(3, "BMW", "Germany")
+INSERT INTO factory VALUES(1, "Audi", "Germany")
+INSERT INTO factory VALUES(2, "Toyota", "Japan")
+
+INSERT INTO car VALUES(4, "A8", "Audi", 2021, 1)
+INSERT INTO car VALUES(3, "A6", "Audi", 2020, 1)
+INSERT INTO car VALUES(2, "Camry", "Toyota", 2021, 2)
+INSERT INTO car VALUES(1, "X5", "BMW", 1995, 3)
+
+
+SELECT car.ID, car.model, car.brand, car.year_, factory.country From car
+    INNER JOIN factory ON car.factory_id = factory.ID;
+
+SELECT * FROM car WHERE brand in
+    (SELECT name FROM factory WHERE country == "Germany");
